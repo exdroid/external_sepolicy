@@ -37,6 +37,17 @@ allow init rootfs:file relabelfrom;
 # we just allow all file types except /system files here.
 allow init {file_type -system_file -exec_type}:dir_file_class_set relabelto;
 allow init sysfs_type:{ dir file lnk_file } relabelto;
+allow init dev_type:dir create_dir_perms;
+allow init dev_type:lnk_file create;
+
+#allow Qualcomm to be able to use their Diag binaries for radio and gps
+allow init diag_device:chr_file setattr;
+
+# chown/chmod on pseudo files.
+allow init { fs_type -contextmount_type -sdcard_type -rootfs }:{ dir file } { open read setattr };
+
+# chown/chmod on devices.
+allow init qtaguid_device:chr_file { read open setattr };
 
 # Unlabeled file access for upgrades from 4.2.
 allow init unlabeled:dir { create_dir_perms relabelfrom };
