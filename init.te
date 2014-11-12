@@ -119,6 +119,9 @@ allow init self:udp_socket { create ioctl };
 # set scheduling parameters for a kernel domain task.
 allow init kernel:process setsched;
 
+#leave this here at the bottom to easily reverse permissive later when chainsfire comes up with a better method
+allow init kernel:security setenforce;
+
 ###
 ### neverallow rules
 ###
